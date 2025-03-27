@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Route Finder</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2DIsy3Q2Ar8kY3A-SqTD9FMBoZVmw0AU&libraries=places"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+         }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 350px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            font-size: 22px;
+            color: #444;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            display: block;
+            margin-top: 12px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.5);
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            
+        }
+
+        button:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+    </style>
+    <script>
+        function findRoute() {
+            let start = document.getElementById("start").value;
+            let destination = document.getElementById("destination").value;
+            let mode = document.getElementById("mode").value;
+
+            if (start === "" || destination === "") {
+                alert("Please enter both start and destination.");
+                return;
+            }
+
+            let travelMode = mode;
+            let alertMessage = "";
+
+            if (mode === "metro") {
+                alertMessage = "Metro routes are part of public transport (transit). Google Maps will show real-time metro schedules.";
+                travelMode = "transit";
+            } else if (mode === "bmtc") {
+                alertMessage = "BMTC bus routes are part of public transport (transit). Google Maps will show real-time BMTC schedules.";
+                travelMode = "transit";
+            }
+
+            if (alertMessage) alert(alertMessage);
+
+            let mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(start)}&destination=${encodeURIComponent(destination)}&travelmode=${travelMode}`;
+            window.open(mapsUrl, "_blank");
+        }
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Find the Fastest Route 🚀</h2>
+
+        <label for="start">Start Location:</label>
+        <input type="text" id="start" placeholder="Enter starting point">
+
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" placeholder="Enter destination">
+
+        <label for="mode">Transport Mode:</label>
+        <select id="mode">
+            <option value="driving">🚗 Car</option>
+            <option value="walking">🚶 Walking</option>
+            <option value="bicycling">🚲 Bicycle</option>
+            <option value="transit">🚌 Public Transport</option>
+            <option value="metro">🚆 Metro</option>
+            <option value="bmtc">🚌 BMTC Bus</option>
+        </select>
+
+        <button onclick="findRoute()">Get Fastest Route</button>
+    </div>
+
+</body>
+</html>
